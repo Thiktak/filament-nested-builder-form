@@ -1,61 +1,166 @@
-# :package_description
+# Nested Builder Form (Filament v3 Form)
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/thiktak/filament-nested-builder-form.svg?style=flat-square)](https://packagist.org/packages/thiktak/filament-nested-builder-form)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/thiktak/filament-nested-builder-form/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/thiktak/filament-nested-builder-form/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/thiktak/filament-nested-builder-form/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/thiktak/filament-nested-builder-form/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/thiktak/filament-nested-builder-form.svg?style=flat-square)](https://packagist.org/packages/thiktak/filament-nested-builder-form)
 
-<!--delete-->
----
-This repo can be used to scaffold a Filament plugin. Follow these steps to get started:
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Make something great!
----
-<!--/delete-->
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Filament V3 Form plugin.
+Add a new feature for Nested Builder.
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require thiktak/filament-nested-builder-form
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
 
 ## Usage
 
+On any Form :
+
+1. Call ```NestedBuilder``` instead of ```Builder```
+2. All all your Builder configuration inside ```nestedConfiguration(Closure)```.
+3. Use ```nestedSchema(Closure)``` instad of ```schema(Closure | array)```
+
+Use ```$builder->getLevel()``` of ```NestedSubBuilder``` to know where you are (level 1 to n)
+
+Note:
+* NestedBuilder like Builder works with an array/json data.
+
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+        NestedBuilder::make('array_configuration')
+            // Add configuration to Builder & sub-builder
+            ->nestedConfiguration(function (NestedSubBuilder $builder) {
+                // Apply only for the root level
+                $builder->blockNumbers($builder->getLevel() == 1);
+
+                // Apply for all others levels
+                $builder->columnFullSpan(); // full width
+            })
+
+            // Replace schema() by nestedSchema
+            ->nestedSchema(function (NestedSubBuilder $builder) { // Closure is mandatory
+                return [
+                    Block::make('group')
+                        ->schema([
+                            Select::make('title')
+                                ->required(),
+
+                            // Call builder importer and call it children
+                            $builder->importNestedBlocks('children'),
+                        ]),
+
+                    Block::make('rule')
+                        ->schema([
+                            TextInput::make('field')
+                                ->required(),
+                        ])
+                ];
+            });
+
+```
+
+## Example
+
+One concrete example of this package, allow you to create a nested AND/OR field/condition/value like complexe group SQL queries.
+
+```php
+        NestedBuilder::make('array_configuration')
+            ->nestedConfiguration(function (NestedSubBuilder $builder) {
+                $builder->blockNumbers($builder->getLevel() == 1);
+                $builder->columnFullSpan(); // full width
+            })
+            ->nestedSchema(function (NestedSubBuilder $builder) {
+                return [
+                    Block::make('group')
+                        ->label(sprintf('Group (%s)', $builder->getLevel()))
+                        ->schema([
+                            Select::make('condition')
+                                ->options(['and' => 'AND', 'or' => 'OR'])
+                                ->default('and')
+                                ->required(),
+
+                            $builder->importNestedBlocks('children'),
+                        ])
+                        ->columns(1),
+
+                    Block::make('rule')
+                        ->label(sprintf('Rule (%s)', $builder->getLevel()))
+                        ->schema([
+                            TextInput::make('field')
+                                ->required()
+                                ->columnSpan(2),
+
+                            Select::make('sign')
+                                ->options(['=', '<>', '>', '<', 'in(,)'])
+                                ->default('=')
+                                ->required(),
+
+                            TextInput::make('value')
+                                ->columnSpan(3),
+                        ])
+                        ->columns(6)
+                ];
+            });
+
+```
+
+###  How it work ?
+
+You can achieve the same behavior with few lines of code.
+Create a function with your builder (```$nested = fn($builder) => [...];```)
+On your schema, pass the function that call itself inside a lambda function (```fn() => $nested($nested)```).
+On you builder function, add a new Builder with identical logic (```Builder::make()->schema(fn() => $builder($builder))```)
+
+Example:
+
+```php
+
+    public static function form(Form $form): Form
+    {
+        $nested = function ($builder) {
+            return [
+                Block::make('group')
+                    ->schema([
+                        Select::make('condition')
+                            ->options(['and' => 'AND', 'or' => 'OR'])
+                            ->default('and')
+                            ->required(),
+
+                        \Filament\Forms\Components\Builder::make('children')
+                            ->schema(fn () => $builder($builder))
+                    ])
+                    ->columns(1),
+
+                Block::make('rule')
+                    ->schema([
+                        TextInput::make('field')
+                            ->required()
+                            ->columnSpan(2),
+
+                        Select::make('sign')
+                            ->options(['=', '<>', '>', '<', 'in(,)'])
+                            ->default('=')
+                            ->required(),
+
+                        TextInput::make('value')
+                            ->columnSpan(3),
+                    ])
+                    ->columns(6)
+            ];
+        };
+
+        
+        return $form
+            ->schema([
+                \Filament\Forms\Components\Builder::make('configuration')
+                    ->schema(fn () => $nested($nested))
+            ]);
+    }
 ```
 
 ## Testing

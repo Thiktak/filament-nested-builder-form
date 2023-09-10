@@ -83,7 +83,7 @@ class FilamentNestedBuilderFormServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'Thiktak/filament-nested-builder-form';
+        return 'thiktak/filament-nested-builder-form';
     }
 
     /**
