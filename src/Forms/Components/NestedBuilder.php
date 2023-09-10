@@ -57,7 +57,7 @@ class NestedBuilder extends NestedSubBuilder
     public function getNestedConfiguration(NestedSubBuilder $builder): static
     {
         $this->evaluate($this->nestedConfiguration, [
-            'builder' => $builder ?: $this,
+            'builder' => $builder ?? $this,
         ]);
 
         return $this;
