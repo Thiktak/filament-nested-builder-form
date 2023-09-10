@@ -3,7 +3,6 @@
 namespace Thiktak\FilamentNestedBuilderForm\Forms\Components;
 
 use Closure;
-use Illuminate\Support\Collection;
 
 class NestedBuilder extends NestedSubBuilder
 {
@@ -13,21 +12,13 @@ class NestedBuilder extends NestedSubBuilder
 
     protected NestedSubBuilder $nestedSubBuilder;
 
+
     public function nestedSchema(Closure $components, string $name = 'default'): static
     {
         $this->nestedSchemas[$name] = $components;
 
         return $this;
     }
-
-    /*public function incrementNestedNamedChildComponents(string $name = 'default', string $fallbackName = 'default'): mixed
-    {
-        if (isset($this->nestedSchemas[$name])) {
-            return ++$this->nestedSchemas[$name];
-        } elseif (isset($this->nestedSchemas[$fallbackName])) {
-            return ++$this->nestedSchemas[$fallbackName];
-        }
-    }*/
 
     public function getNestedSubBuilder(): NestedSubBuilder
     {
@@ -57,13 +48,19 @@ class NestedBuilder extends NestedSubBuilder
     public function getNestedConfiguration(NestedSubBuilder $builder): static
     {
         $this->evaluate($this->nestedConfiguration, [
-            'builder' => $builder ?? $this,
+            'builder' => $builder
         ]);
 
         return $this;
     }
+}
 
-    /*protected function getRootNestedBuilderIterator($data, $object): Collection
+
+
+/*
+    Dead code ?
+
+    protected function getRootNestedBuilderIterator($data, $object): Collection
     {
         if (!is_object($object)) {
             return $data;
@@ -104,5 +101,5 @@ class NestedBuilder extends NestedSubBuilder
             'level' => $recursive
                 ->count()
         ]);
-    }*/
-}
+    }
+*/

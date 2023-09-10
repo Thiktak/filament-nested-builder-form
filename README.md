@@ -32,6 +32,11 @@ Note:
 * NestedBuilder like Builder works with an array/json data.
 
 ```php
+
+use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedBuilder;
+use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
+// ...
+
         NestedBuilder::make('array_configuration')
             // Add configuration to Builder & sub-builder
             ->nestedConfiguration(function (NestedSubBuilder $builder) {
@@ -69,6 +74,10 @@ Note:
 One concrete example of this package, allow you to create a nested AND/OR field/condition/value like complexe group SQL queries.
 
 ```php
+use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedBuilder;
+use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
+// ...
+
         NestedBuilder::make('array_configuration')
             ->nestedConfiguration(function (NestedSubBuilder $builder) {
                 $builder->blockNumbers($builder->getLevel() == 1);
@@ -112,13 +121,17 @@ One concrete example of this package, allow you to create a nested AND/OR field/
 ###  How it work ?
 
 You can achieve the same behavior with few lines of code.
-Create a function with your builder (```$nested = fn($builder) => [...];```)
-On your schema, pass the function that call itself inside a lambda function (```fn() => $nested($nested)```).
-On you builder function, add a new Builder with identical logic (```Builder::make()->schema(fn() => $builder($builder))```)
+
+1. Create a function with your builder (```$nested = fn($builder) => [...];```)
+2. On your schema, pass the function that call itself inside a lambda function (```fn() => $nested($nested)```).
+3. On you builder function, add a new Builder with identical logic (```Builder::make()->schema(fn() => $builder($builder))```)
 
 Example:
 
 ```php
+use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedBuilder;
+use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
+// ...
 
     public static function form(Form $form): Form
     {
@@ -157,7 +170,7 @@ Example:
         
         return $form
             ->schema([
-                \Filament\Forms\Components\Builder::make('configuration')
+                \Filament\Forms\Components\Builder::make('array_configuration')
                     ->schema(fn () => $nested($nested))
             ]);
     }
@@ -183,7 +196,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Thiktak](https://github.com/:author_username)
 - [All Contributors](../../contributors)
 
 ## License
