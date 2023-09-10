@@ -44,7 +44,7 @@ use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
                 $builder->blockNumbers($builder->getLevel() == 1);
 
                 // Apply for all others levels
-                $builder->columnFullSpan(); // full width
+                $builder->columnSpanFull(); // full width
             })
 
             // Replace schema() by nestedSchema
@@ -69,6 +69,9 @@ use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
 
 ```
 
+![image](https://github.com/Thiktak/filament-nested-builder-form/assets/1201486/11c5a674-c001-4508-b7ca-0a6a318a1ba0)
+
+
 ## Example
 
 One concrete example of this package, allow you to create a nested AND/OR field/condition/value like complexe group SQL queries.
@@ -81,7 +84,7 @@ use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
         NestedBuilder::make('array_configuration')
             ->nestedConfiguration(function (NestedSubBuilder $builder) {
                 $builder->blockNumbers($builder->getLevel() == 1);
-                $builder->columnFullSpan(); // full width
+                $builder->columnSpanFull(); // full width
             })
             ->nestedSchema(function (NestedSubBuilder $builder) {
                 return [
@@ -117,6 +120,15 @@ use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
             });
 
 ```
+
+![image](https://github.com/Thiktak/filament-nested-builder-form/assets/1201486/9d86014c-93c7-4acf-baee-97c325a9ce5c)
+
+
+
+#### Example of advanced usage of this package:
+
+![image](https://github.com/Thiktak/filament-nested-builder-form/assets/1201486/cd9190c7-5400-4dee-b761-e6b594c0e500)
+
 
 ###  How it work ?
 
