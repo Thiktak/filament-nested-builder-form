@@ -1,29 +1,27 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "thiktak/filament-nested-builder-form",
+    "description": "Plugin for FilamentPHP - NestedBuilder Form Component",
     "keywords": [
-        ":vendor_name",
+        "Thiktak",
         "laravel",
-        ":package_slug"
+        "filament-nested-builder-form"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/Thiktak/filament-nested-builder-form",
     "support": {
-        "issues": "https://github.com/:vendor_slug/:package_slug/issues",
-        "source": "https://github.com/:vendor_slug/:package_slug"
+        "issues": "https://github.com/Thiktak/filament-nested-builder-form/issues",
+        "source": "https://github.com/Thiktak/filament-nested-builder-form"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Georges OLIVARES",
+            "email": "georges.olivares@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
-        "filament/filament": "^3.0",
         "filament/forms": "^3.0",
-        "filament/tables": "^3.0",
         "spatie/laravel-package-tools": "^1.15.0",
         "illuminate/contracts": "^10.0"
     },
@@ -42,13 +40,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Thiktak\\FilamentNestedBuilderForm\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Thiktak\\FilamentNestedBuilderForm\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -68,11 +65,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
-            ],
-            "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
-            }
+                "Thiktak\\FilamentNestedBuilderForm\\FilamentNestedBuilderFormServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",
