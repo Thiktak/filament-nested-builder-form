@@ -7,11 +7,13 @@ use Filament\Forms\Components\Builder;
 class NestedSubBuilder extends Builder
 {
     public NestedBuilder $nestedBuilder;
+
     public int $level = 1;
 
     public function nestedBuilder(NestedBuilder $nestedBuilder): self
     {
         $this->nestedBuilder = $nestedBuilder;
+
         return $this;
     }
 
@@ -23,6 +25,7 @@ class NestedSubBuilder extends Builder
     public function level(int $level): self
     {
         $this->level = $level;
+
         return $this;
     }
 
@@ -31,16 +34,14 @@ class NestedSubBuilder extends Builder
         return $this->level;
     }
 
-
-
     public function getChildComponents(): array
     {
-        if (!$this->childComponents) {
+        if (! $this->childComponents) {
             $this->childComponents(
                 (array) $this->evaluate(
                     $this->getNestedBuilder()->getNestedNamedChildComponents(),
                     [
-                        'builder' => $this
+                        'builder' => $this,
                     ]
                 )
             );
@@ -49,6 +50,7 @@ class NestedSubBuilder extends Builder
         if ($this->childComponents) {
             return parent::getChildComponents();
         }
+
         return [];
     }
 
@@ -70,13 +72,12 @@ class NestedSubBuilder extends Builder
             ->schema(fn () => $this->evaluate(
                 $nestedComponents,
                 [
-                    'builder' => $builder
+                    'builder' => $builder,
                 ]
             ));
 
         return $builder;
     }
-
 
     /*protected Collection $debug;
     protected int $level = 1;
