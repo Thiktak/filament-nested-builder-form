@@ -3,12 +3,12 @@
 namespace Thiktak\FilamentNestedBuilderForm\Forms\Components;
 
 use Closure;
-use Filament\Forms\Components\Builder;
 use Illuminate\Support\Collection;
 
 class NestedBuilder extends NestedSubBuilder
 {
-    public Closure | null $nestedConfiguration = null;
+    public ?Closure $nestedConfiguration = null;
+
     protected array $nestedSchemas = [];
 
     protected NestedSubBuilder $nestedSubBuilder;
@@ -16,6 +16,7 @@ class NestedBuilder extends NestedSubBuilder
     public function nestedSchema(Closure $components, string $name = 'default'): static
     {
         $this->nestedSchemas[$name] = $components;
+
         return $this;
     }
 
@@ -33,7 +34,6 @@ class NestedBuilder extends NestedSubBuilder
         return $this->nestedSubBuilder ?? $this;
     }
 
-
     public function getNestedNamedChildComponents(string $name = 'default', string $fallbackName = 'default'): mixed
     {
         if (isset($this->nestedSchemas[$name])) {
@@ -45,7 +45,7 @@ class NestedBuilder extends NestedSubBuilder
         return [];
     }
 
-    public function nestedConfiguration(Closure | null $nestedConfiguration = null): static
+    public function nestedConfiguration(Closure $nestedConfiguration = null): static
     {
         $this->nestedConfiguration = $nestedConfiguration;
 
@@ -57,11 +57,11 @@ class NestedBuilder extends NestedSubBuilder
     public function getNestedConfiguration(NestedSubBuilder $builder): static
     {
         $this->evaluate($this->nestedConfiguration, [
-            'builder' => $builder ?: $this
+            'builder' => $builder ?: $this,
         ]);
+
         return $this;
     }
-
 
     /*protected function getRootNestedBuilderIterator($data, $object): Collection
     {
