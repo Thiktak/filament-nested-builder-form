@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Testing;
+namespace Thiktak\FilamentNestedBuilderForm\Testing;
 
 use Livewire\Features\SupportTesting\Testable;
 

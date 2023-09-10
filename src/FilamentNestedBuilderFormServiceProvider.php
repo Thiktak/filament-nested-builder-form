@@ -12,8 +12,7 @@ use Illuminate\Filesystem\Filesystem;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
-use VendorName\Skeleton\Testing\TestsFilamentNestedBuilderForm;
+use Thiktak\FilamentNestedBuilderForm\Testing\TestsFilamentNestedBuilderForm;
 
 class FilamentNestedBuilderFormServiceProvider extends PackageServiceProvider
 {
