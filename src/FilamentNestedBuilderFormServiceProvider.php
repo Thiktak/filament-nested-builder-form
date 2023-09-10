@@ -14,7 +14,6 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use VendorName\Skeleton\Commands\SkeletonCommand;
 use VendorName\Skeleton\Testing\TestsFilamentNestedBuilderForm;
-use VendorName\Skeleton\Testing\TestsSkeleton;
 
 class FilamentNestedBuilderFormServiceProvider extends PackageServiceProvider
 {
