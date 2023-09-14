@@ -1,3 +1,6 @@
+<img src="https://github.com/Thiktak/filament-nested-builder-form/assets/1201486/17f4bf1c-6b80-4eef-8bcb-57b77166d444" width="100%" alt="Preview" class="filament-hidden" />
+
+
 # Nested Builder Form (Filament v3 Form)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/thiktak/filament-nested-builder-form.svg?style=flat-square)](https://packagist.org/packages/thiktak/filament-nested-builder-form)
