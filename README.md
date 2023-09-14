@@ -188,6 +188,8 @@ use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
     }
 ```
 
+Use [thiktak/filament-nested-builder-form](https://github.com/Thiktak/filament-nested-builder-form) if you want to implement a rich SQL selector & query builder.
+
 ## Testing
 
 ```bash
