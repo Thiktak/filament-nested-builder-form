@@ -4,6 +4,7 @@
     "keywords": [
         "Thiktak",
         "laravel",
+        "filament-plugin",
         "filament-nested-builder-form"
     ],
     "homepage": "https://github.com/Thiktak/filament-nested-builder-form",

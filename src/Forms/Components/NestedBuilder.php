@@ -12,6 +12,7 @@ class NestedBuilder extends NestedSubBuilder
 
     protected NestedSubBuilder $nestedSubBuilder;
 
+
     public function nestedSchema(Closure $components, string $name = 'default'): static
     {
         $this->nestedSchemas[$name] = $components;
@@ -48,55 +49,9 @@ class NestedBuilder extends NestedSubBuilder
     {
         $this->evaluate($this->nestedConfiguration, [
             'builder' => $builder,
+            'parent' => $this,
         ]);
 
         return $this;
     }
 }
-
-/*
-    Dead code ?
-
-    protected function getRootNestedBuilderIterator($data, $object): Collection
-    {
-        if (!is_object($object)) {
-            return $data;
-        }
-
-        if ($data->count() > 999) {
-            return $data;
-        }
-
-        $data->add($object);
-
-        if (method_exists($object, 'getContainer')) {
-            //$this->debug->add(['method_exists getContainer', $object]);
-            return $this->getRootNestedBuilderIterator($data, $object->getContainer());
-        }
-        //
-        else if (method_exists($object, 'getParentComponent')) {
-            //$this->debug->add(['method_exists getParentComponent', $object]);
-            return $this->getRootNestedBuilderIterator($data, $object->getParentComponent());
-        }
-
-        return $data;
-    }
-
-    public function getRootNestedBuilder(): mixed
-    {
-        $recursive = $this->getRootNestedBuilderIterator(collect(), $this)
-            // Keep only what we need
-            ->filter(function ($step) {
-                return $step instanceof \Filament\Forms\Components\Builder or $step instanceof NestedBuilder;
-            });
-
-        return collect([
-            'root'  => $recursive
-                ->filter(fn ($step) => $step instanceof NestedBuilder)
-                ->first(),
-
-            'level' => $recursive
-                ->count()
-        ]);
-    }
-*/
