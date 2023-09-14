@@ -12,7 +12,6 @@ class NestedBuilder extends NestedSubBuilder
 
     protected NestedSubBuilder $nestedSubBuilder;
 
-
     public function nestedSchema(Closure $components, string $name = 'default'): static
     {
         $this->nestedSchemas[$name] = $components;

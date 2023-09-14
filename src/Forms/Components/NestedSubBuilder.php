@@ -10,7 +10,6 @@ class NestedSubBuilder extends Builder
 
     public int $level = 1;
 
-
     public function nestedBuilder(NestedBuilder $nestedBuilder): self
     {
         $this->nestedBuilder = $nestedBuilder;
@@ -37,7 +36,7 @@ class NestedSubBuilder extends Builder
 
     public function getChildComponents(): array
     {
-        if (!$this->childComponents) {
+        if (! $this->childComponents) {
             $this->childComponents(
                 (array) $this->evaluate(
                     $this->getNestedBuilder()->getNestedNamedChildComponents(),
