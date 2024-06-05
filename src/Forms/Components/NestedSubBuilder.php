@@ -3,9 +3,12 @@
 namespace Thiktak\FilamentNestedBuilderForm\Forms\Components;
 
 use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Concerns\CanBeCollapsed;
 
 class NestedSubBuilder extends Builder
 {
+
+    use CanBeCollapsed;
     public NestedBuilder $nestedBuilder;
 
     public int $level = 1;
