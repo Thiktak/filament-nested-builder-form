@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "filament/forms": "^3.0",
         "spatie/laravel-package-tools": "^1.15.0"
     },
